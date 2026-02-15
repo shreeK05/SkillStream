@@ -50,20 +50,22 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         const userProfile = await getUserProfile(firebaseUser.uid);
         if (userProfile) {
           setCurrentUser(userProfile);
+
+          // Fetch all employees from Firestore to populate dashboard (Only if Admin)
+          if (userProfile.role === 'Admin') {
+            try {
+              const allUsers = await getAllUsers();
+              if (allUsers.length > 0) {
+                setEmployees(allUsers);
+              }
+            } catch (err) {
+              console.error("Failed to fetch employees:", err);
+            }
+          }
         }
       } else {
         // User is signed out
         setCurrentUser(null);
-      }
-
-      // Fetch all employees from Firestore to populate dashboard
-      try {
-        const allUsers = await getAllUsers();
-        if (allUsers.length > 0) {
-          setEmployees(allUsers);
-        }
-      } catch (err) {
-        console.error("Failed to fetch employees:", err);
       }
 
       setIsLoading(false);

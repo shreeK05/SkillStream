@@ -1,14 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, Zap, Target, Layers, Layout, Video, Cpu, Activity, User, Grid } from 'lucide-react';
+import { ArrowRight, Zap, Target, Layers, Layout, Video, Cpu, Activity, User, Grid, PlayCircle, Sparkles } from 'lucide-react';
 import { useAppContext } from '../context/AppContext';
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import ParticleBackground from '../components/ParticleBackground';
 
 const LandingPage = () => {
     const navigate = useNavigate();
     const { isAuthenticated, currentUser } = useAppContext();
     const [scrolled, setScrolled] = useState(false);
+    const { scrollY } = useScroll();
 
-    // Scroll effect for header
+    // Parallax effect for header
+    const headerY = useTransform(scrollY, [0, 500], [0, 150]);
+    const headerOpacity = useTransform(scrollY, [0, 300], [1, 0]);
+
+    // Scroll effect for navbar
     useEffect(() => {
         const handleScroll = () => {
             setScrolled(window.scrollY > 50);
@@ -25,186 +32,305 @@ const LandingPage = () => {
         }
     };
 
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.1,
+                delayChildren: 0.3
+            }
+        }
+    };
+
+    const itemVariants = {
+        hidden: { y: 20, opacity: 0 },
+        visible: {
+            y: 0,
+            opacity: 1,
+            transition: { type: "spring", stiffness: 100 }
+        }
+    };
+
     return (
         <div className="min-h-screen bg-[#0f172a] text-white overflow-hidden relative font-sans selection:bg-indigo-500 selection:text-white">
 
-            {/* Background Particles (static CSS animation) */}
-            <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-                <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-indigo-600/20 rounded-full blur-[120px] animate-pulse"></div>
-                <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-cyan-500/10 rounded-full blur-[120px] animate-pulse delay-1000"></div>
-                <div className="absolute top-[40%] left-[60%] w-[20%] h-[20%] bg-purple-500/10 rounded-full blur-[80px] animate-float"></div>
-            </div>
+            <ParticleBackground />
 
             {/* Navigation */}
-            <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-[#0f172a]/80 backdrop-blur-md border-b border-white/5 py-4' : 'bg-transparent py-6'}`}>
+            <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-[#0f172a]/80 backdrop-blur-md border-b border-white/5 py-4 shadow-lg' : 'bg-transparent py-6'}`}>
                 <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-                    <div className="flex items-center space-x-2">
-                        <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center transform rotate-3 hover:rotate-6 transition-transform">
-                            <Zap className="w-5 h-5 text-white" />
-                        </div>
-                        <span className="text-xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
-                            Svadhyaya
-                        </span>
-                    </div>
-                    <div className="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-300">
-                        <a href="#features" className="hover:text-white transition-colors">Features</a>
-                        <a href="#how-it-works" className="hover:text-white transition-colors">How it Works</a>
-                        <a href="#pricing" className="hover:text-white transition-colors">Pricing</a>
-                    </div>
-                    <div>
+                    <motion.div
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.5 }}
+                        className="flex items-center space-x-2 cursor-pointer"
+                        onClick={() => navigate('/')}
+                    >
+                        <img src="/logo.png" alt="Svadhyaya" className="h-10 w-auto object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
+                    </motion.div>
+
+                    <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.1 }}
+                        className="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-400"
+                    >
+                        <a href="#features" className="hover:text-white transition-colors relative group">
+                            Features
+                            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-indigo-500 transition-all group-hover:w-full"></span>
+                        </a>
+                        <a href="#how-it-works" className="hover:text-white transition-colors relative group">
+                            Engine
+                            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-indigo-500 transition-all group-hover:w-full"></span>
+                        </a>
+                        <a href="#pricing" className="hover:text-white transition-colors relative group">
+                            Enterprise
+                            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-indigo-500 transition-all group-hover:w-full"></span>
+                        </a>
+                    </motion.div>
+
+                    <motion.div
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.5 }}
+                        className="flex items-center space-x-4"
+                    >
                         <button
                             onClick={() => navigate('/login')}
-                            className="px-5 py-2 text-sm font-medium text-white bg-white/5 hover:bg-white/10 border border-white/10 rounded-full backdrop-blur-sm transition-all mr-3"
+                            className="hidden md:block px-5 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors"
                         >
                             Sign In
                         </button>
                         <button
                             onClick={handleCTA}
-                            className="px-5 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-500 shadow-[0_0_20px_rgba(79,70,229,0.3)] rounded-full transition-all"
+                            className="px-6 py-2.5 text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-500 shadow-[0_0_20px_rgba(79,70,229,0.4)] rounded-full transition-all hover:scale-105 active:scale-95 border border-indigo-500/50"
                         >
                             Get Started
                         </button>
-                    </div>
+                    </motion.div>
                 </div>
             </nav>
 
             {/* Hero Section */}
-            <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 z-10">
-                <div className="max-w-7xl mx-auto px-6 text-center">
-                    <div className="inline-flex items-center px-4 py-1.5 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-indigo-300 text-xs font-medium mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-                        <span className="flex w-2 h-2 bg-indigo-400 rounded-full mr-2 animate-pulse"></span>
-                        AI-Driven Learning Ecosystem v2.0
-                    </div>
+            <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 z-10 flex flex-col items-center justify-center min-h-screen">
+                <motion.div
+                    style={{ y: headerY, opacity: headerOpacity }}
+                    className="max-w-7xl mx-auto px-6 text-center relative z-20"
+                >
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2 }}
+                        className="inline-flex items-center px-4 py-1.5 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-indigo-300 text-xs font-bold mb-8 shadow-[0_0_15px_rgba(99,102,241,0.2)] backdrop-blur-sm"
+                    >
+                        <span className="flex w-2 h-2 bg-indigo-400 rounded-full mr-2 animate-pulse shadow-[0_0_10px_#818cf8]"></span>
+                        Svadhyaya AI Engine v2.0 Live
+                    </motion.div>
 
-                    <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-8 leading-[1.1] animate-in fade-in slide-in-from-bottom-6 duration-1000 delay-100">
-                        Unlock Your Potential with <br />
-                        <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400">
-                            Intelligent Self-Learning
+                    <motion.h1
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.8, delay: 0.3, type: "spring" }}
+                        className="text-6xl md:text-8xl font-bold tracking-tight mb-8 leading-[1.1]"
+                    >
+                        <span className="block text-white drop-shadow-lg">Unlock Your</span>
+                        <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400 animate-gradient-x drop-shadow-lg">
+                            True Potential
                         </span>
-                    </h1>
+                    </motion.h1>
 
-                    <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-12 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200 leading-relaxed">
-                        Svadhyaya adapts to your pace, style, and goals using advanced AI.
-                        Experience a new era of personalized workforce development.
-                    </p>
+                    <motion.p
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 0.5 }}
+                        className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-12 leading-relaxed"
+                    >
+                        The intelligent learning ecosystem that adapts to your career velocity.
+                        <br className="hidden md:block" /> Powered by advanced neural networks to personalize every step.
+                    </motion.p>
 
-                    <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6 animate-in fade-in slide-in-from-bottom-10 duration-1000 delay-300">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 0.7 }}
+                        className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6"
+                    >
                         <button
                             onClick={handleCTA}
-                            className="px-8 py-4 text-base font-semibold text-white bg-indigo-600 hover:bg-indigo-500 rounded-full shadow-[0_10px_30px_rgba(79,70,229,0.4)] hover:shadow-[0_15px_40px_rgba(79,70,229,0.5)] transition-all transform hover:-translate-y-1 flex items-center"
+                            className="group relative px-8 py-4 text-base font-bold text-white bg-indigo-600 rounded-full shadow-[0_0_30px_rgba(79,70,229,0.5)] overflow-hidden transition-all hover:scale-105 active:scale-95"
                         >
-                            Start Learning Now
-                            <ArrowRight className="ml-2 w-5 h-5" />
+                            <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-shimmer"></span>
+                            <span className="relative flex items-center">
+                                Start Your Journey
+                                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                            </span>
                         </button>
-                        <button className="px-8 py-4 text-base font-semibold text-gray-300 hover:text-white border border-gray-700 hover:border-gray-500 rounded-full bg-white/5 backdrop-blur-sm transition-all flex items-center group">
-                            <Video className="mr-2 w-5 h-5 text-gray-500 group-hover:text-white transition-colors" />
+
+                        <button className="px-8 py-4 text-base font-bold text-gray-300 hover:text-white border border-white/10 hover:border-white/30 rounded-full bg-white/5 backdrop-blur-sm transition-all flex items-center group hover:bg-white/10">
+                            <PlayCircle className="mr-2 w-5 h-5 text-indigo-400 group-hover:text-white transition-colors fill-current bg-white rounded-full bg-opacity-10" />
                             Watch Demo
                         </button>
-                    </div>
+                    </motion.div>
+                </motion.div>
 
-                    {/* Hero Dashboard Preview */}
-                    <div className="mt-24 relative max-w-5xl mx-auto animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500">
-                        <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl blur opacity-30"></div>
-                        <div className="relative rounded-xl border border-white/10 bg-[#1e293b]/80 backdrop-blur-xl shadow-2xl overflow-hidden aspect-[16/9]">
-                            {/* Mock UI Interface */}
-                            <div className="absolute inset-0 flex flex-col">
-                                <div className="h-10 border-b border-white/5 bg-white/5 flex items-center px-4 space-x-2">
+                {/* Hero Dashboard Preview */}
+                <motion.div
+                    initial={{ opacity: 0, y: 100, rotateX: 20 }}
+                    animate={{ opacity: 1, y: 0, rotateX: 0 }}
+                    transition={{ duration: 1, delay: 0.4, type: "spring", stiffness: 50 }}
+                    className="mt-20 relative max-w-6xl mx-auto px-4 z-10 w-full perspective-1000"
+                >
+                    <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl blur-2xl opacity-20 animate-pulse"></div>
+                    <div className="relative rounded-2xl border border-white/10 bg-[#1e293b]/50 backdrop-blur-xl shadow-2xl overflow-hidden aspect-[16/9] ring-1 ring-white/10">
+                        {/* Mock UI Interface */}
+                        <div className="absolute inset-0 flex flex-col">
+                            <div className="h-12 border-b border-white/5 bg-white/5 flex items-center px-6 justify-between">
+                                <div className="flex space-x-2">
                                     <div className="w-3 h-3 rounded-full bg-red-500/50"></div>
                                     <div className="w-3 h-3 rounded-full bg-yellow-500/50"></div>
                                     <div className="w-3 h-3 rounded-full bg-green-500/50"></div>
                                 </div>
-                                <div className="flex-1 flex">
-                                    <div className="w-64 border-r border-white/5 bg-white/5 p-4 hidden md:block">
-                                        <div className="space-y-4">
-                                            <div className="h-8 w-3/4 bg-white/10 rounded animate-pulse"></div>
-                                            <div className="h-4 w-1/2 bg-white/5 rounded animate-pulse"></div>
-                                            <div className="h-4 w-2/3 bg-white/5 rounded animate-pulse"></div>
-                                            <div className="h-4 w-1/2 bg-white/5 rounded animate-pulse"></div>
+                                <div className="h-6 w-1/3 bg-white/5 rounded-full"></div>
+                            </div>
+                            <div className="flex-1 flex overflow-hidden">
+                                <div className="w-64 border-r border-white/5 bg-white/5 p-6 hidden md:block space-y-6">
+                                    <div className="h-10 w-full bg-indigo-500/20 rounded-lg animate-pulse delay-75"></div>
+                                    <div className="space-y-3">
+                                        <div className="h-4 w-3/4 bg-white/5 rounded animate-pulse"></div>
+                                        <div className="h-4 w-1/2 bg-white/5 rounded animate-pulse"></div>
+                                        <div className="h-4 w-5/6 bg-white/5 rounded animate-pulse"></div>
+                                    </div>
+                                    <div className="mt-auto h-32 bg-gradient-to-b from-transparent to-indigo-900/20 rounded-xl border border-white/5"></div>
+                                </div>
+                                <div className="flex-1 p-8 grid grid-cols-12 gap-6 overflow-hidden relative">
+                                    <div className="col-span-8 bg-white/5 rounded-2xl border border-white/5 p-6 relative overflow-hidden group">
+                                        <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full blur-2xl group-hover:bg-indigo-500/20 transition-all"></div>
+                                        <div className="h-48 flex items-end justify-between gap-2">
+                                            {[40, 65, 50, 80, 55, 90, 70].map((h, i) => (
+                                                <motion.div
+                                                    key={i}
+                                                    initial={{ height: 0 }}
+                                                    animate={{ height: `${h}%` }}
+                                                    transition={{ duration: 1, delay: 1 + i * 0.1 }}
+                                                    className="w-full bg-gradient-to-t from-indigo-600 to-purple-500 rounded-t-sm opacity-80"
+                                                ></motion.div>
+                                            ))}
                                         </div>
                                     </div>
-                                    <div className="flex-1 p-8 grid grid-cols-2 gap-6">
-                                        <div className="col-span-2 h-32 bg-indigo-500/10 border border-indigo-500/20 rounded-lg p-6 flex items-center justify-between">
-                                            <div>
-                                                <div className="h-6 w-48 bg-indigo-400/20 rounded mb-2"></div>
-                                                <div className="h-4 w-32 bg-indigo-400/10 rounded"></div>
-                                            </div>
-                                            <div className="w-16 h-16 rounded-full border-4 border-indigo-500/30 flex items-center justify-center text-indigo-400 font-bold text-xl">85%</div>
+                                    <div className="col-span-4 space-y-6">
+                                        <div className="bg-gradient-to-br from-indigo-600 to-purple-700 rounded-2xl p-6 shadow-lg h-full relative overflow-hidden">
+                                            <Sparkles className="absolute top-4 right-4 text-white/20 w-8 h-8" />
+                                            <div className="h-16 w-16 rounded-full bg-white/20 mb-4 animate-pulse"></div>
+                                            <div className="h-4 w-2/3 bg-white/20 rounded mb-2"></div>
+                                            <div className="h-4 w-1/2 bg-white/10 rounded"></div>
                                         </div>
-                                        <div className="h-40 bg-white/5 rounded-lg border border-white/5 p-4"></div>
-                                        <div className="h-40 bg-white/5 rounded-lg border border-white/5 p-4"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </motion.div>
             </section>
 
             {/* Features Grid */}
-            <section id="features" className="py-24 relative z-10 bg-[#0f172a]">
+            <section id="features" className="py-32 relative z-10 bg-[#0f172a]">
                 <div className="max-w-7xl mx-auto px-6">
-                    <div className="text-center mb-16">
-                        <h2 className="text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400 mb-4">
-                            Designed for the Future of Work
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8 }}
+                        className="text-center mb-20"
+                    >
+                        <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight">
+                            Engineered for <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400">Hyper-Growth</span>
                         </h2>
-                        <p className="text-gray-400 max-w-2xl mx-auto">
-                            Powerful tools that adapt to your unique learning journey.
+                        <p className="text-gray-400 max-w-2xl mx-auto text-lg">
+                            Our platform combines behavioral science with machine learning to create the most efficient learning paths.
                         </p>
-                    </div>
+                    </motion.div>
 
-                    <div className="grid md:grid-cols-3 gap-8">
+                    <motion.div
+                        variants={containerVariants}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, margin: "-100px" }}
+                        className="grid md:grid-cols-3 gap-8"
+                    >
                         {[
                             {
                                 icon: <Cpu className="w-6 h-6 text-indigo-400" />,
                                 title: "Adaptive AI Engine",
-                                desc: "Real-time analysis of your performance to tailor content difficulty."
+                                desc: "Proprietary algorithms analyze your code and quiz performance to continuously adjust curriculum difficulty.",
+                                color: "indigo"
                             },
                             {
                                 icon: <Target className="w-6 h-6 text-cyan-400" />,
-                                title: "Precision Learning Paths",
-                                desc: "No more generic courses. Get exactly what you need to advance."
+                                title: "Precision Paths",
+                                desc: "Dynamic curriculum generation based on your role, goals, and gaps. No generic content.",
+                                color: "cyan"
                             },
                             {
                                 icon: <Layers className="w-6 h-6 text-purple-400" />,
-                                title: "Skill Visualization",
-                                desc: "Track your growth with interactive dataviz and mastery charts."
+                                title: "Deep Skill Mapping",
+                                desc: "Visualize your competency matrix across 500+ technical dimensions with real-time updates.",
+                                color: "purple"
                             },
                             {
                                 icon: <Activity className="w-6 h-6 text-emerald-400" />,
-                                title: "Real-time Analytics",
-                                desc: "Instant feedback loops to accelerate your retention."
+                                title: "Instant Feedback Loops",
+                                desc: "Get immediate, actionable feedback on assignments with automated grading and suggestions.",
+                                color: "emerald"
                             },
                             {
                                 icon: <Layout className="w-6 h-6 text-orange-400" />,
-                                title: "Premium Dashboard",
-                                desc: "A clutter-free, focused environment designed for deep work."
+                                title: "Flow State Interface",
+                                desc: "A distraction-free, high-contrast environment designed to keep you in the zone.",
+                                color: "orange"
                             },
                             {
                                 icon: <Grid className="w-6 h-6 text-pink-400" />,
-                                title: "Resource Library",
-                                desc: "Curated content from world-class providers at your fingertips."
+                                title: "Enterprise Scalability",
+                                desc: "Manage thousands of custom learning paths with team-level analytics and reporting.",
+                                color: "pink"
                             }
-                        ].map((feature, idx) => (
-                            <div key={idx} className="p-6 rounded-2xl bg-[#1e293b]/60 border border-white/5 hover:border-indigo-500/30 hover:bg-[#1e293b] transition-all group">
-                                <div className="w-12 h-12 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                                    {feature.icon}
-                                </div>
-                                <h3 className="text-xl font-bold text-white mb-2">{feature.title}</h3>
-                                <p className="text-gray-400 text-sm leading-relaxed">{feature.desc}</p>
-                            </div>
-                        ))}
-                    </div>
+                        ].map((feature, idx) => {
+                            const colorMap: Record<string, string> = { indigo: 'bg-indigo-500', cyan: 'bg-cyan-500', purple: 'bg-purple-500', emerald: 'bg-emerald-500', orange: 'bg-orange-500', pink: 'bg-pink-500' };
+                            return (
+                                <motion.div
+                                    key={idx}
+                                    variants={itemVariants}
+                                    whileHover={{ y: -10, transition: { duration: 0.3 } }}
+                                    className="p-8 rounded-3xl bg-[#1e293b]/40 backdrop-blur-sm border border-white/5 hover:border-indigo-500/30 hover:bg-[#1e293b]/80 transition-all group relative overflow-hidden"
+                                >
+                                    <div className={`absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity`}>
+                                        <div className={`w-24 h-24 rounded-full ${colorMap[feature.color] || 'bg-indigo-500'} blur-2xl`}></div>
+                                    </div>
+
+                                    <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300 shadow-lg">
+                                        {feature.icon}
+                                    </div>
+                                    <h3 className="text-xl font-bold text-white mb-3 group-hover:text-indigo-400 transition-colors">{feature.title}</h3>
+                                    <p className="text-gray-400 text-sm leading-relaxed">{feature.desc}</p>
+                                </motion.div>
+                            );
+                        })}
+                    </motion.div>
                 </div>
             </section>
 
             {/* Footer */}
-            <footer className="py-12 border-t border-white/5 bg-[#0b1120]">
+            <footer className="py-12 border-t border-white/5 bg-[#0b1120] relative z-10">
                 <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
-                    <p>&copy; {new Date().getFullYear()} Svadhyaya. All rights reserved.</p>
-                    <div className="flex space-x-6 mt-4 md:mt-0">
-                        <a href="#" className="hover:text-white transition-colors">Privacy</a>
-                        <a href="#" className="hover:text-white transition-colors">Terms</a>
-                        <a href="#" className="hover:text-white transition-colors">Contact</a>
+                    <div className="flex items-center space-x-2 mb-4 md:mb-0">
+                        <img src="/logo.png" alt="Svadhyaya" className="h-8 w-auto opacity-70 filter grayscale hover:grayscale-0 transition-all" />
+                        <span className="text-gray-400 font-bold">&copy; {new Date().getFullYear()}</span>
+                    </div>
+                    <div className="flex space-x-8">
+                        <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
+                        <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+                        <a href="#" className="hover:text-white transition-colors">Support</a>
                     </div>
                 </div>
             </footer>

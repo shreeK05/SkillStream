@@ -49,11 +49,8 @@ const Login: React.FC = () => {
 
       <div className="sm:mx-auto sm:w-full sm:max-w-md relative z-10">
         <div className="flex flex-col justify-center items-center mb-8">
-          <Link to="/" className="flex items-center space-x-3 mb-4 group cursor-pointer">
-            <div className="bg-indigo-600 p-2.5 rounded-xl shadow-lg shadow-indigo-500/30 group-hover:bg-indigo-500 transition-colors">
-              <Zap className="w-6 h-6 text-white" />
-            </div>
-            <span className="text-3xl font-bold text-white tracking-tight">Svadhyaya</span>
+          <Link to="/" className="mb-6 group cursor-pointer block">
+            <img src="/logo.png" alt="Svadhyaya" className="h-24 w-auto drop-shadow-2xl transition-transform group-hover:scale-105" />
           </Link>
           <h2 className="text-lg text-indigo-200/80 font-medium">Intelligent Learning Ecosystem</h2>
         </div>

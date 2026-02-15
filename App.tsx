@@ -17,6 +17,7 @@ import CoursePlayer from './pages/employee/CoursePlayer';
 import MyProgress from './pages/employee/MyProgress';
 import Library from './pages/employee/Library';
 import UserProfile from './pages/employee/UserProfile';
+import AIChatbot from './pages/employee/AIChatbot';
 import LandingPage from './pages/LandingPage';
 
 // Wrapper for Protected Routes
@@ -57,6 +58,7 @@ const AppRoutes = () => {
                 <Route path="/employee/library" element={<Library />} />
                 <Route path="/employee/progress" element={<MyProgress />} />
                 <Route path="/employee/profile" element={<UserProfile />} />
+                <Route path="/employee/chatbot" element={<AIChatbot />} />
             </Route>
 
             {/* Default Redirect */}

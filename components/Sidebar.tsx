@@ -23,6 +23,7 @@ const Sidebar: React.FC = () => {
     { id: '/employee/library', icon: Library, label: 'Course Library' },
     { id: '/employee/learning', icon: BookOpen, label: 'My Learning' },
     { id: '/employee/progress', icon: BarChart2, label: 'Performance' },
+    { id: '/employee/chatbot', icon: Zap, label: 'AI Chatbot' },
     { id: '/employee/profile', icon: User, label: 'My Profile' },
   ];
 
@@ -37,9 +38,7 @@ const Sidebar: React.FC = () => {
     <div className="w-72 bg-[#1e293b]/70 backdrop-blur-xl border-r border-white/5 h-screen flex flex-col fixed left-0 top-0 z-40 hidden md:flex shadow-[4px_0_30px_rgba(0,0,0,0.2)]">
       <div className="h-24 flex items-center px-8 border-b border-white/5">
         <div className="flex items-center space-x-3 group cursor-pointer" onClick={() => navigate('/')}>
-          <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-xl shadow-lg shadow-indigo-500/30 group-hover:scale-105 transition-transform duration-300">
-            <Zap className="w-6 h-6 text-white" />
-          </div>
+          <img src="/logo.png" alt="Svadhyaya Logo" className="w-12 h-12 object-contain group-hover:scale-110 transition-transform duration-300 drop-shadow-[0_0_10px_rgba(99,102,241,0.5)]" />
           <div>
             <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400 tracking-tight leading-none block group-hover:to-white transition-all">Svadhyaya</span>
             <span className="text-[10px] uppercase tracking-widest text-indigo-400 font-medium opacity-80">v2.0 Beta</span>

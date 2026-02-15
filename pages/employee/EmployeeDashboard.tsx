@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAppContext } from '../../context/AppContext';
-import { CheckCircle, Zap, BookOpen, Clock, Award, Target, TrendingUp, AlertOctagon } from 'lucide-react';
+import { CheckCircle, Zap, BookOpen, Clock, Award, Target, TrendingUp, AlertOctagon, PlayCircle } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import Timeline from '../../components/Timeline';
 
