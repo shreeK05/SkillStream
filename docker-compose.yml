@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  # Fresh PostgreSQL container with known credentials
+  skillstream_postgres:
+    image: postgres:15-alpine
+    container_name: skillstream_postgres_new
+    environment:
+      POSTGRES_USER: skillstream
+      POSTGRES_PASSWORD: skillstream123
+      POSTGRES_DB: skillstream
+    ports:
+      - "5434:5432"  # Using port 5434 to avoid conflicts
+    volumes:
+      - skillstream_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U skillstream"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # Redis (using existing one on 6379, so commenting this out)
+  # skillstream_redis:
+  #   image: redis:7-alpine
+  #   container_name: skillstream_redis_new
+  #   ports:
+  #     - "6380:6379"
+  #   volumes:
+  #     - skillstream_redis_data:/data
+  #   command: redis-server --appendonly yes
+  #   healthcheck:
+  #     test: ["CMD", "redis-cli", "ping"]
+  #     interval: 10s
+  #     timeout: 3s
+  #     retries: 5
+  #   restart: unless-stopped
+
+volumes:
+  skillstream_postgres_data:
+  # skillstream_redis_data:
