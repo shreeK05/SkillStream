@@ -13,8 +13,12 @@ DATABASE_URL = os.getenv(
 )
 
 # Fix for Render/Heroku which might provide postgres:// but SQLAlchemy requires postgresql://
-if DATABASE_URL and DATABASE_URL.startswith("postgres://"):
-    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+if DATABASE_URL:
+    # Remove surrounding whitespace which can break parsing
+    DATABASE_URL = DATABASE_URL.strip()
+    
+    if DATABASE_URL.startswith("postgres://"):
+        DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
 
 # Redis Configuration
 REDIS_HOST = os.getenv("REDIS_HOST", "localhost")
@@ -23,14 +27,22 @@ REDIS_DB = int(os.getenv("REDIS_DB", "0"))
 
 # SQLAlchemy Setup
 if DATABASE_URL:
-    engine = create_engine(
-        DATABASE_URL,
-        pool_pre_ping=True,  # Verify connections before using
-        pool_size=10,
-        max_overflow=20
-    )
-    SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-    Base = declarative_base()
+    try:
+        engine = create_engine(
+            DATABASE_URL,
+            pool_pre_ping=True,  # Verify connections before using
+            pool_size=10,
+            max_overflow=20
+        )
+        SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+        Base = declarative_base()
+        print(f"✅ Database initialized with URL starting with: {DATABASE_URL[:15]}...")
+    except Exception as e:
+        print(f"❌ FAILED to create database engine. URL was: {DATABASE_URL[:20]}... Error: {e}")
+        # Allow app to start even if DB fails, so we can see logs
+        engine = None
+        SessionLocal = None
+        Base = declarative_base()
 else:
     # PostgreSQL disabled - create dummy objects
     engine = None
