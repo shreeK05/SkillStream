@@ -18,7 +18,7 @@ const Login: React.FC = () => {
 
     try {
       await login(email, password);
-      // Navigation will be handled by the auth state change in App.tsx
+      // App.tsx auth state change handles navigation
     } catch (err: any) {
       setError(err.message || 'Failed to login');
     } finally {
@@ -32,7 +32,6 @@ const Login: React.FC = () => {
 
     try {
       await loginWithGoogle();
-      // Navigation will be handled by the auth state change
     } catch (err: any) {
       setError(err.message || 'Failed to login with Google');
     } finally {
@@ -41,40 +40,46 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute top-0 left-0 w-full h-96 bg-gradient-to-b from-brand-600 to-slate-50 opacity-10 pointer-events-none"></div>
+    <div className="min-h-screen bg-[#0f172a] flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden font-sans">
+      {/* Ambient Background */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-indigo-600/20 rounded-full blur-[100px] animate-pulse"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-cyan-500/10 rounded-full blur-[100px] animate-float delay-1000"></div>
+      </div>
 
       <div className="sm:mx-auto sm:w-full sm:max-w-md relative z-10">
-        <div className="flex justify-center items-center space-x-3 mb-8">
-          <div className="bg-brand-600 p-2.5 rounded-xl shadow-lg shadow-brand-500/30">
-            <Zap className="w-6 h-6 text-white" />
-          </div>
-          <span className="text-3xl font-bold text-slate-900 tracking-tight">SkillStream</span>
+        <div className="flex flex-col justify-center items-center mb-8">
+          <Link to="/" className="flex items-center space-x-3 mb-4 group cursor-pointer">
+            <div className="bg-indigo-600 p-2.5 rounded-xl shadow-lg shadow-indigo-500/30 group-hover:bg-indigo-500 transition-colors">
+              <Zap className="w-6 h-6 text-white" />
+            </div>
+            <span className="text-3xl font-bold text-white tracking-tight">Svadhyaya</span>
+          </Link>
+          <h2 className="text-lg text-indigo-200/80 font-medium">Intelligent Learning Ecosystem</h2>
         </div>
 
-        <div className="bg-white py-10 px-4 shadow-xl shadow-slate-200/50 sm:rounded-2xl sm:px-10 border border-slate-100">
+        <div className="bg-[#1e293b]/70 backdrop-blur-xl py-10 px-4 shadow-2xl border border-white/10 sm:rounded-2xl sm:px-10">
           <div className="mb-8 text-center">
-            <h2 className="text-2xl font-bold text-slate-900">Welcome back</h2>
-            <p className="mt-2 text-sm text-slate-500">
-              Please enter your details to access your workspace.
+            <h2 className="text-2xl font-bold text-white">Welcome back</h2>
+            <p className="mt-2 text-sm text-gray-400">
+              Enter your credentials to access the portal.
             </p>
           </div>
 
           {error && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl">
-              <p className="text-sm text-red-600">{error}</p>
+            <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-xl">
+              <p className="text-sm text-red-400">{error}</p>
             </div>
           )}
 
           <form className="space-y-6" onSubmit={handleLogin}>
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1">
+              <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1">
                 Email address
               </label>
-              <div className="relative">
+              <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Mail className="h-5 w-5 text-slate-400" />
+                  <Mail className="h-5 w-5 text-gray-500 group-focus-within:text-indigo-400 transition-colors" />
                 </div>
                 <input
                   id="email"
@@ -84,19 +89,19 @@ const Login: React.FC = () => {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="block w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-xl leading-5 bg-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 sm:text-sm transition-all"
+                  className="block w-full pl-10 pr-3 py-3 border border-gray-600 rounded-xl leading-5 bg-[#0f172a]/50 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-all"
                   placeholder="name@company.com"
                 />
               </div>
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-slate-700 mb-1">
+              <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-1">
                 Password
               </label>
-              <div className="relative">
+              <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-slate-400" />
+                  <Lock className="h-5 w-5 text-gray-500 group-focus-within:text-indigo-400 transition-colors" />
                 </div>
                 <input
                   id="password"
@@ -106,7 +111,7 @@ const Login: React.FC = () => {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="block w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-xl leading-5 bg-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 sm:text-sm transition-all"
+                  className="block w-full pl-10 pr-3 py-3 border border-gray-600 rounded-xl leading-5 bg-[#0f172a]/50 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-all"
                   placeholder="••••••••"
                 />
               </div>
@@ -118,15 +123,15 @@ const Login: React.FC = () => {
                   id="remember-me"
                   name="remember-me"
                   type="checkbox"
-                  className="h-4 w-4 text-brand-600 focus:ring-brand-500 border-slate-300 rounded cursor-pointer"
+                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-600 rounded bg-[#0f172a]/50 cursor-pointer"
                 />
-                <label htmlFor="remember-me" className="ml-2 block text-sm text-slate-600 cursor-pointer select-none">
-                  Keep me logged in
+                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-400 cursor-pointer select-none hover:text-gray-300">
+                  Remember me
                 </label>
               </div>
 
               <div className="text-sm">
-                <a href="#" className="font-medium text-brand-600 hover:text-brand-500 transition-colors">
+                <a href="#" className="font-medium text-indigo-400 hover:text-indigo-300 transition-colors">
                   Forgot password?
                 </a>
               </div>
@@ -135,7 +140,7 @@ const Login: React.FC = () => {
             <button
               type="submit"
               disabled={isLoading}
-              className={`w-full flex justify-center py-2.5 px-4 border border-transparent rounded-xl shadow-sm text-sm font-bold text-white bg-brand-600 hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 transition-all transform active:scale-[0.98] ${isLoading ? 'opacity-80 cursor-wait' : ''}`}
+              className={`w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-lg shadow-indigo-500/20 text-sm font-bold text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#1e293b] focus:ring-indigo-500 transition-all transform active:scale-[0.98] ${isLoading ? 'opacity-80 cursor-wait' : ''}`}
             >
               {isLoading ? (
                 <span className="flex items-center">
@@ -156,10 +161,10 @@ const Login: React.FC = () => {
           <div className="mt-6">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-slate-200" />
+                <div className="w-full border-t border-gray-700" />
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-slate-500">Or continue with</span>
+                <span className="px-2 bg-[#1e293b] text-gray-500">Or continue with</span>
               </div>
             </div>
 
@@ -167,7 +172,7 @@ const Login: React.FC = () => {
               onClick={handleGoogleLogin}
               disabled={isLoading}
               type="button"
-              className="mt-4 w-full flex items-center justify-center py-2.5 px-4 border border-slate-300 rounded-xl shadow-sm bg-white text-sm font-semibold text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="mt-4 w-full flex items-center justify-center py-3 px-4 border border-gray-600 rounded-xl shadow-sm bg-white/5 text-sm font-semibold text-gray-300 hover:bg-white/10 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#1e293b] focus:ring-indigo-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
                 <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -182,22 +187,22 @@ const Login: React.FC = () => {
           <div className="mt-8">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-slate-200" />
+                <div className="w-full border-t border-gray-700" />
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-slate-500">Don't have an account?</span>
+                <span className="px-2 bg-[#1e293b] text-gray-500">Don't have an account?</span>
               </div>
             </div>
             <div className="mt-6 flex justify-center">
-              <Link to="/signup" className="text-brand-600 font-semibold hover:text-brand-700 hover:underline">
+              <Link to="/signup" className="text-indigo-400 font-semibold hover:text-indigo-300 hover:underline transition-colors">
                 Create an account
               </Link>
             </div>
           </div>
         </div>
 
-        <p className="text-center text-xs text-slate-400 mt-8">
-          &copy; 2024 SkillStream Inc. Enterprise Learning Management.
+        <p className="text-center text-xs text-gray-500 mt-8">
+          &copy; 2026 Svadhyaya Inc. AI-Driven Learning Ecosystem.
         </p>
       </div>
     </div>

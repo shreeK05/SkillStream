@@ -17,6 +17,7 @@ import CoursePlayer from './pages/employee/CoursePlayer';
 import MyProgress from './pages/employee/MyProgress';
 import Library from './pages/employee/Library';
 import UserProfile from './pages/employee/UserProfile';
+import LandingPage from './pages/LandingPage';
 
 // Wrapper for Protected Routes
 const ProtectedRoute = () => {
@@ -59,7 +60,10 @@ const AppRoutes = () => {
             </Route>
 
             {/* Default Redirect */}
-            <Route path="/" element={<Navigate to={isAuthenticated ? (currentUser?.role === 'Admin' ? "/admin/dashboard" : "/employee/dashboard") : "/login"} replace />} />
+            {/* Landing Page as Default */}
+            <Route path="/" element={<LandingPage />} />
+
+            {/* Fallback */}
             <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
     );

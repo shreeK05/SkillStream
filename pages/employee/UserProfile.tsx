@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import { User, LearningStyle } from '../../types';
-import { Save, User as UserIcon, Mail, Briefcase, Award, Zap, Brain } from 'lucide-react';
+import { Save, User as UserIcon, Mail, Briefcase, Award, Zap, Brain, Sparkles } from 'lucide-react';
 
 const UserProfile: React.FC = () => {
     const { currentUser, updateUser } = useAppContext();
@@ -20,114 +20,116 @@ const UserProfile: React.FC = () => {
             updateUser({ name, learningPreference: preference });
             setIsSaving(false);
             // Maybe show toast here
-            alert("Profile updated successfully!");
+            // alert("Profile updated successfully!"); 
         }, 800);
     };
 
     return (
-        <div className="space-y-6 animate-in fade-in duration-500">
+        <div className="space-y-8 animate-in fade-in duration-700">
             <div>
-                <h1 className="text-2xl font-bold text-slate-900">My Profile</h1>
-                <p className="text-slate-500">Manage your personal information and learning preferences</p>
+                <h1 className="text-3xl font-bold text-white tracking-tight">Personal Profile</h1>
+                <p className="text-gray-400 mt-1">Manage your identity and AI personalization settings.</p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Left Column: Stats & Avatar */}
                 <div className="space-y-6">
-                    <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col items-center text-center">
-                        <div className="w-24 h-24 rounded-full bg-brand-100 flex items-center justify-center text-brand-600 text-3xl font-bold mb-4 shadow-inner">
+                    <div className="bg-[#1e293b]/60 backdrop-blur-xl rounded-2xl p-8 border border-white/5 flex flex-col items-center text-center shadow-lg relative overflow-hidden group">
+                        <div className="absolute inset-0 bg-gradient-to-b from-indigo-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                        <div className="w-28 h-28 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-4xl font-bold mb-6 shadow-2xl ring-4 ring-[#1e293b] relative z-10">
                             {currentUser.name.charAt(0)}
                         </div>
-                        <h2 className="text-xl font-bold text-slate-900">{currentUser.name}</h2>
-                        <p className="text-sm text-slate-500">{currentUser.role} • {currentUser.department}</p>
+                        <h2 className="text-2xl font-bold text-white relative z-10">{currentUser.name}</h2>
+                        <p className="text-sm text-indigo-300 font-medium mb-6 relative z-10">{currentUser.role} • {currentUser.department}</p>
 
-                        <div className="mt-6 w-full grid grid-cols-3 gap-2 text-center">
-                            <div className="bg-slate-50 p-3 rounded-xl border border-slate-100">
-                                <div className="text-xs text-slate-400 font-bold uppercase mb-1">XP</div>
-                                <div className="font-bold text-brand-600">{currentUser.xp}</div>
+                        <div className="w-full grid grid-cols-3 gap-3 text-center relative z-10">
+                            <div className="bg-[#0f172a]/50 p-3 rounded-xl border border-white/10 group-hover:border-indigo-500/30 transition-colors">
+                                <div className="text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-1">XP</div>
+                                <div className="font-bold text-white text-lg">{currentUser.xp}</div>
                             </div>
-                            <div className="bg-slate-50 p-3 rounded-xl border border-slate-100">
-                                <div className="text-xs text-slate-400 font-bold uppercase mb-1">Streak</div>
-                                <div className="font-bold text-orange-500">{currentUser.streak} 🔥</div>
+                            <div className="bg-[#0f172a]/50 p-3 rounded-xl border border-white/10 group-hover:border-amber-500/30 transition-colors">
+                                <div className="text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-1">Streak</div>
+                                <div className="font-bold text-amber-400 text-lg flex justify-center items-center">{currentUser.streak} <Zap className="w-3 h-3 ml-1 fill-current" /></div>
                             </div>
-                            <div className="bg-slate-50 p-3 rounded-xl border border-slate-100">
-                                <div className="text-xs text-slate-400 font-bold uppercase mb-1">Score</div>
-                                <div className="font-bold text-green-600">{currentUser.avgScore}%</div>
+                            <div className="bg-[#0f172a]/50 p-3 rounded-xl border border-white/10 group-hover:border-emerald-500/30 transition-colors">
+                                <div className="text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-1">Score</div>
+                                <div className="font-bold text-emerald-400 text-lg">{currentUser.avgScore}%</div>
                             </div>
                         </div>
                     </div>
 
-                    <div className="bg-gradient-to-br from-brand-600 to-brand-800 rounded-2xl p-6 text-white shadow-lg shadow-brand-500/30 relative overflow-hidden">
+                    <div className="bg-gradient-to-br from-indigo-600 to-purple-700 rounded-2xl p-6 text-white shadow-lg relative overflow-hidden border border-white/10">
                         <div className="relative z-10">
                             <div className="flex items-center mb-4">
-                                <Award className="w-6 h-6 mr-2 text-brand-200" />
-                                <h3 className="font-bold text-lg">Current Status</h3>
+                                <Award className="w-6 h-6 mr-3 text-indigo-200" />
+                                <h3 className="font-bold text-lg">Top Performer</h3>
                             </div>
-                            <p className="text-brand-100 text-sm mb-4">
-                                You are in the top 10% of learners in your department. Keep up the great work!
+                            <p className="text-indigo-100/90 text-sm mb-6 leading-relaxed">
+                                You are in the <span className="font-bold text-white">top 10%</span> of learners in your cohort. Your dedication involves mastering complex topics ahead of schedule.
                             </p>
-                            <div className="w-full bg-brand-900/30 rounded-full h-2">
-                                <div className="bg-white h-2 rounded-full" style={{ width: '85%' }}></div>
+                            <div className="w-full bg-black/20 rounded-full h-1.5 overflow-hidden">
+                                <div className="bg-white h-full rounded-full shadow-[0_0_10px_white]" style={{ width: '92%' }}></div>
                             </div>
                         </div>
-                        {/* Decorative circles */}
-                        <div className="absolute top-0 right-0 -mr-16 -mt-16 w-48 h-48 bg-white/10 rounded-full blur-2xl"></div>
-                        <div className="absolute bottom-0 left-0 -ml-16 -mb-16 w-32 h-32 bg-white/10 rounded-full blur-xl"></div>
+                        {/* Decorative background */}
+                        <div className="absolute top-0 right-0 -mr-12 -mt-12 w-48 h-48 bg-white/10 rounded-full blur-3xl"></div>
+                        <div className="absolute bottom-0 left-0 -ml-12 -mb-12 w-32 h-32 bg-purple-500/20 rounded-full blur-2xl"></div>
                     </div>
                 </div>
 
                 {/* Right Column: Edit Form */}
-                <div className="lg:col-span-2">
-                    <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-                        <div className="p-6 border-b border-slate-100 bg-slate-50/50">
-                            <h3 className="font-bold text-lg text-slate-900 flex items-center">
-                                <UserIcon className="w-5 h-5 mr-2 text-slate-400" />
-                                Personal Details
+                <div className="lg:col-span-2 space-y-6">
+                    <div className="bg-[#1e293b]/60 backdrop-blur-xl rounded-2xl shadow-lg border border-white/5 overflow-hidden">
+                        <div className="p-6 border-b border-white/5 flex items-center bg-white/5">
+                            <UserIcon className="w-5 h-5 mr-3 text-indigo-400" />
+                            <h3 className="font-bold text-lg text-white">
+                                Account Details
                             </h3>
                         </div>
 
-                        <form onSubmit={handleSave} className="p-6 space-y-6">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <form onSubmit={handleSave} className="p-8 space-y-8">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <div>
-                                    <label className="block text-sm font-medium text-slate-700 mb-2">Full Name</label>
-                                    <div className="relative">
-                                        <UserIcon className="w-4 h-4 absolute left-3 top-3 text-slate-400" />
+                                    <label className="block text-sm font-medium text-gray-300 mb-2">Display Name</label>
+                                    <div className="relative group">
+                                        <UserIcon className="w-4 h-4 absolute left-3.5 top-3.5 text-gray-500 group-focus-within:text-indigo-400 transition-colors" />
                                         <input
                                             type="text"
                                             value={name}
                                             onChange={(e) => setName(e.target.value)}
-                                            className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:bg-white transition-all outline-none"
+                                            className="w-full pl-10 pr-4 py-3 bg-[#0f172a]/50 border border-white/10 rounded-xl focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all outline-none text-white font-medium"
                                         />
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-slate-700 mb-2">Email Address</label>
+                                    <label className="block text-sm font-medium text-gray-300 mb-2">Email Address</label>
                                     <div className="relative">
-                                        <Mail className="w-4 h-4 absolute left-3 top-3 text-slate-400" />
+                                        <Mail className="w-4 h-4 absolute left-3.5 top-3.5 text-gray-600" />
                                         <input
                                             type="email"
                                             value={currentUser.email}
                                             disabled
-                                            className="w-full pl-10 pr-4 py-2.5 bg-slate-100 border border-slate-200 rounded-xl text-slate-500 cursor-not-allowed"
+                                            className="w-full pl-10 pr-4 py-3 bg-[#0f172a]/30 border border-white/5 rounded-xl text-gray-500 cursor-not-allowed font-medium"
                                         />
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-slate-700 mb-2">Department</label>
+                                    <label className="block text-sm font-medium text-gray-300 mb-2">Department</label>
                                     <div className="relative">
-                                        <Briefcase className="w-4 h-4 absolute left-3 top-3 text-slate-400" />
+                                        <Briefcase className="w-4 h-4 absolute left-3.5 top-3.5 text-gray-600" />
                                         <input
                                             type="text"
                                             value={currentUser.department}
                                             disabled
-                                            className="w-full pl-10 pr-4 py-2.5 bg-slate-100 border border-slate-200 rounded-xl text-slate-500 cursor-not-allowed"
+                                            className="w-full pl-10 pr-4 py-3 bg-[#0f172a]/30 border border-white/5 rounded-xl text-gray-500 cursor-not-allowed font-medium"
                                         />
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-slate-700 mb-2 flex items-center justify-between">
+                                    <label className="block text-sm font-medium text-gray-300 mb-3 flex items-center justify-between">
                                         <span>Learning Preference</span>
-                                        <span className="text-xs text-brand-600 bg-brand-50 px-2 py-0.5 rounded-full font-medium">Affects Recommendations</span>
+                                        <span className="text-[10px] text-indigo-300 bg-indigo-500/10 border border-indigo-500/20 px-2 py-0.5 rounded-full font-bold uppercase tracking-wide">AI Recommendation Engine</span>
                                     </label>
                                     <div className="grid grid-cols-3 gap-2">
                                         {['Visual', 'Text', 'Hands-on'].map((type) => (
@@ -135,9 +137,9 @@ const UserProfile: React.FC = () => {
                                                 key={type}
                                                 type="button"
                                                 onClick={() => setPreference(type as LearningStyle)}
-                                                className={`px-3 py-2.5 text-sm font-medium rounded-xl border transition-all ${preference === type
-                                                        ? 'bg-brand-50 border-brand-200 text-brand-700 ring-1 ring-brand-200'
-                                                        : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
+                                                className={`px-2 py-3 text-xs font-bold uppercase tracking-wider rounded-xl border transition-all ${preference === type
+                                                    ? 'bg-indigo-600 text-white border-indigo-500 shadow-lg shadow-indigo-500/25'
+                                                    : 'bg-[#0f172a]/50 border-white/10 text-gray-400 hover:text-white hover:bg-white/5'
                                                     }`}
                                             >
                                                 {type}
@@ -147,16 +149,16 @@ const UserProfile: React.FC = () => {
                                 </div>
                             </div>
 
-                            <div className="pt-6 border-t border-slate-100 flex justify-end">
+                            <div className="pt-6 border-t border-white/5 flex justify-end">
                                 <button
                                     type="submit"
                                     disabled={isSaving}
-                                    className="flex items-center px-6 py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-medium rounded-xl transition-all shadow-sm transform active:scale-[0.98] disabled:opacity-70 disabled:cursor-wait"
+                                    className="flex items-center px-8 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl transition-all shadow-lg shadow-indigo-600/20 transform active:scale-[0.98] disabled:opacity-70 disabled:cursor-wait"
                                 >
                                     {isSaving ? (
                                         <>
                                             <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2"></div>
-                                            Saving...
+                                            Updating...
                                         </>
                                     ) : (
                                         <>
@@ -169,15 +171,18 @@ const UserProfile: React.FC = () => {
                         </form>
                     </div>
 
-                    <div className="mt-6 bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex items-start gap-4">
-                        <div className="bg-amber-100 p-3 rounded-xl text-amber-600 shrink-0">
+                    <div className="bg-gradient-to-r from-amber-500/10 to-orange-500/10 rounded-2xl border border-amber-500/20 p-6 flex items-start gap-4 backdrop-blur-sm">
+                        <div className="bg-amber-500/20 p-3 rounded-xl text-amber-500 shrink-0">
                             <Brain className="w-6 h-6" />
                         </div>
                         <div>
-                            <h3 className="font-bold text-slate-900 mb-1">AI Engine Configuration</h3>
-                            <p className="text-sm text-slate-500 mb-3">
-                                The SkillStream Adaptive Engine uses your <strong>{preference}</strong> learning preference to prioritize content types in your learning path.
-                                Changing this will affect future module recommendations.
+                            <h3 className="font-bold text-white mb-1 flex items-center">
+                                Svadhyaya Adaptive Engine
+                                <Sparkles className="w-3 h-3 text-amber-400 ml-2 animate-pulse" />
+                            </h3>
+                            <p className="text-sm text-gray-400 leading-relaxed">
+                                The AI engine is currently optimizing your feed based on your <strong>{preference}</strong> preference.
+                                Adjusting this setting will immediately recalibrate future module recommendations in your dashboard.
                             </p>
                         </div>
                     </div>

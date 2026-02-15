@@ -21,7 +21,6 @@ const Signup: React.FC = () => {
 
     try {
       await signup(name, email, password, role, department);
-      // Navigation will be handled by the auth state change in App.tsx
     } catch (err: any) {
       setError(err.message || 'Failed to sign up');
     } finally {
@@ -35,7 +34,6 @@ const Signup: React.FC = () => {
 
     try {
       await loginWithGoogle();
-      // Navigation will be handled by the auth state change
     } catch (err: any) {
       setError(err.message || 'Failed to sign up with Google');
     } finally {
@@ -44,40 +42,46 @@ const Signup: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute top-0 left-0 w-full h-96 bg-gradient-to-b from-brand-600 to-slate-50 opacity-10 pointer-events-none"></div>
+    <div className="min-h-screen bg-[#0f172a] flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden font-sans">
+      {/* Ambient Background */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+        <div className="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] bg-purple-600/20 rounded-full blur-[100px] animate-pulse delay-700"></div>
+        <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-indigo-500/10 rounded-full blur-[100px] animate-float"></div>
+      </div>
 
       <div className="sm:mx-auto sm:w-full sm:max-w-md relative z-10">
-        <div className="flex justify-center items-center space-x-3 mb-8">
-          <div className="bg-brand-600 p-2.5 rounded-xl shadow-lg shadow-brand-500/30">
-            <Zap className="w-6 h-6 text-white" />
-          </div>
-          <span className="text-3xl font-bold text-slate-900 tracking-tight">SkillStream</span>
+        <div className="flex flex-col justify-center items-center mb-8">
+          <Link to="/" className="flex items-center space-x-3 mb-4 group cursor-pointer">
+            <div className="bg-gradient-to-br from-indigo-500 to-purple-600 p-2.5 rounded-xl shadow-lg shadow-indigo-500/30 group-hover:shadow-indigo-500/50 transition-all">
+              <Zap className="w-6 h-6 text-white" />
+            </div>
+            <span className="text-3xl font-bold text-white tracking-tight">Svadhyaya</span>
+          </Link>
+          <h2 className="text-lg text-indigo-200/80 font-medium">Join the Future of Learning</h2>
         </div>
 
-        <div className="bg-white py-10 px-4 shadow-xl shadow-slate-200/50 sm:rounded-2xl sm:px-10 border border-slate-100">
+        <div className="bg-[#1e293b]/70 backdrop-blur-xl py-10 px-4 shadow-2xl border border-white/10 sm:rounded-2xl sm:px-10">
           <div className="mb-8 text-center">
-            <h2 className="text-2xl font-bold text-slate-900">Create your account</h2>
-            <p className="mt-2 text-sm text-slate-500">
-              Start your learning journey today
+            <h2 className="text-2xl font-bold text-white">Create Account</h2>
+            <p className="mt-2 text-sm text-gray-400">
+              Start your personalized journey today.
             </p>
           </div>
 
           {error && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl">
-              <p className="text-sm text-red-600">{error}</p>
+            <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-xl">
+              <p className="text-sm text-red-400">{error}</p>
             </div>
           )}
 
           <form className="space-y-6" onSubmit={handleSignup}>
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-1">
+              <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-1">
                 Full Name
               </label>
-              <div className="relative">
+              <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <User className="h-5 w-5 text-slate-400" />
+                  <User className="h-5 w-5 text-gray-500 group-focus-within:text-purple-400 transition-colors" />
                 </div>
                 <input
                   id="name"
@@ -86,19 +90,19 @@ const Signup: React.FC = () => {
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="block w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-xl leading-5 bg-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 sm:text-sm transition-all"
+                  className="block w-full pl-10 pr-3 py-3 border border-gray-600 rounded-xl leading-5 bg-[#0f172a]/50 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 sm:text-sm transition-all"
                   placeholder="John Doe"
                 />
               </div>
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1">
+              <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1">
                 Email address
               </label>
-              <div className="relative">
+              <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Mail className="h-5 w-5 text-slate-400" />
+                  <Mail className="h-5 w-5 text-gray-500 group-focus-within:text-purple-400 transition-colors" />
                 </div>
                 <input
                   id="email"
@@ -108,19 +112,19 @@ const Signup: React.FC = () => {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="block w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-xl leading-5 bg-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 sm:text-sm transition-all"
+                  className="block w-full pl-10 pr-3 py-3 border border-gray-600 rounded-xl leading-5 bg-[#0f172a]/50 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 sm:text-sm transition-all"
                   placeholder="name@company.com"
                 />
               </div>
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-slate-700 mb-1">
+              <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-1">
                 Password
               </label>
-              <div className="relative">
+              <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-slate-400" />
+                  <Lock className="h-5 w-5 text-gray-500 group-focus-within:text-purple-400 transition-colors" />
                 </div>
                 <input
                   id="password"
@@ -131,16 +135,16 @@ const Signup: React.FC = () => {
                   minLength={6}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="block w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-xl leading-5 bg-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 sm:text-sm transition-all"
+                  className="block w-full pl-10 pr-3 py-3 border border-gray-600 rounded-xl leading-5 bg-[#0f172a]/50 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 sm:text-sm transition-all"
                   placeholder="••••••••"
                 />
               </div>
-              <p className="mt-1 text-xs text-slate-500">Must be at least 6 characters</p>
+              <p className="mt-1 text-xs text-gray-500">Must be at least 6 characters</p>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label htmlFor="role" className="block text-sm font-medium text-slate-700 mb-1">
+                <label htmlFor="role" className="block text-sm font-medium text-gray-300 mb-1">
                   Role
                 </label>
                 <select
@@ -148,19 +152,19 @@ const Signup: React.FC = () => {
                   name="role"
                   value={role}
                   onChange={(e) => setRole(e.target.value as any)}
-                  className="block w-full px-3 py-2.5 border border-slate-300 rounded-xl bg-white text-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 sm:text-sm transition-all"
+                  className="block w-full px-3 py-3 border border-gray-600 rounded-xl bg-[#0f172a]/50 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 sm:text-sm transition-all"
                 >
                   <option value="Employee">Employee</option>
                   <option value="Admin">Admin</option>
                 </select>
               </div>
               <div>
-                <label htmlFor="department" className="block text-sm font-medium text-slate-700 mb-1">
+                <label htmlFor="department" className="block text-sm font-medium text-gray-300 mb-1">
                   Department
                 </label>
-                <div className="relative">
+                <div className="relative group">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Briefcase className="h-5 w-5 text-slate-400" />
+                    <Briefcase className="h-5 w-5 text-gray-500 group-focus-within:text-purple-400 transition-colors" />
                   </div>
                   <input
                     id="department"
@@ -168,7 +172,7 @@ const Signup: React.FC = () => {
                     type="text"
                     value={department}
                     onChange={(e) => setDepartment(e.target.value)}
-                    className="block w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-xl leading-5 bg-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 sm:text-sm transition-all"
+                    className="block w-full pl-10 pr-3 py-3 border border-gray-600 rounded-xl leading-5 bg-[#0f172a]/50 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 sm:text-sm transition-all"
                     placeholder="Engineering"
                   />
                 </div>
@@ -178,7 +182,7 @@ const Signup: React.FC = () => {
             <button
               type="submit"
               disabled={isLoading}
-              className={`w-full flex justify-center py-2.5 px-4 border border-transparent rounded-xl shadow-sm text-sm font-bold text-white bg-brand-600 hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 transition-all transform active:scale-[0.98] ${isLoading ? 'opacity-80 cursor-wait' : ''}`}
+              className={`w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-lg shadow-purple-500/20 text-sm font-bold text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#1e293b] focus:ring-purple-500 transition-all transform active:scale-[0.98] ${isLoading ? 'opacity-80 cursor-wait' : ''}`}
             >
               {isLoading ? (
                 <span className="flex items-center">
@@ -196,21 +200,19 @@ const Signup: React.FC = () => {
             </button>
           </form>
 
-          <div className="mt-6">
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-slate-200" />
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-slate-500">Or continue with</span>
-              </div>
+          <div className="mt-8 relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-700" />
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-2 bg-[#1e293b] text-gray-500">Or continue with</span>
             </div>
 
             <button
               onClick={handleGoogleSignup}
               disabled={isLoading}
               type="button"
-              className="mt-4 w-full flex items-center justify-center py-2.5 px-4 border border-slate-300 rounded-xl shadow-sm bg-white text-sm font-semibold text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="mt-4 w-full flex items-center justify-center py-3 px-4 border border-gray-600 rounded-xl shadow-sm bg-white/5 text-sm font-semibold text-gray-300 hover:bg-white/10 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#1e293b] focus:ring-indigo-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
                 <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -225,22 +227,22 @@ const Signup: React.FC = () => {
           <div className="mt-8">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-slate-200" />
+                <div className="w-full border-t border-gray-700" />
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-slate-500">Already have an account?</span>
+                <span className="px-2 bg-[#1e293b] text-gray-500">Already have an account?</span>
               </div>
             </div>
             <div className="mt-6 flex justify-center">
-              <Link to="/login" className="text-brand-600 font-semibold hover:text-brand-700 hover:underline">
+              <Link to="/login" className="text-purple-400 font-semibold hover:text-purple-300 hover:underline transition-colors">
                 Sign in
               </Link>
             </div>
           </div>
         </div>
 
-        <p className="text-center text-xs text-slate-400 mt-8">
-          &copy; 2024 SkillStream Inc. Enterprise Learning Management.
+        <p className="text-center text-xs text-gray-500 mt-8">
+          &copy; 2026 Svadhyaya Inc. AI-Driven Learning Ecosystem.
         </p>
       </div>
     </div>
