@@ -12,6 +12,10 @@ DATABASE_URL = os.getenv(
     "postgresql://skillstream:skillstream123@localhost:5434/skillstream"
 )
 
+# Fix for Render/Heroku which might provide postgres:// but SQLAlchemy requires postgresql://
+if DATABASE_URL and DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+
 # Redis Configuration
 REDIS_HOST = os.getenv("REDIS_HOST", "localhost")
 REDIS_PORT = int(os.getenv("REDIS_PORT", "6379"))

@@ -3,26 +3,15 @@ from typing import List
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 
-try:
-    # Try relative import (when running as module)
-    from .services.ai_engine import AIEngine
-    from .adapters.database import (
-        get_db, 
-        get_redis, 
-        init_db, 
-        check_db_connection, 
-        check_redis_connection
-    )
-except ImportError:
-    # Fallback for running directly as script
-    from services.ai_engine import AIEngine
-    from adapters.database import (
-        get_db, 
-        get_redis, 
-        init_db, 
-        check_db_connection, 
-        check_redis_connection
-    )
+# Standard imports without try/except block for better compatibility with uvicorn/deployment
+from services.ai_engine import AIEngine
+from adapters.database import (
+    get_db, 
+    get_redis, 
+    init_db, 
+    check_db_connection, 
+    check_redis_connection
+)
 
 
 class ConnectionManager:
